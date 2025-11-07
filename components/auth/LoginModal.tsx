@@ -55,103 +55,72 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister }: LoginModalPr
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[440px]">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">로그인</DialogTitle>
+      <DialogContent className="max-w-[350px] sm:max-w-[380px] bg-white border-0 rounded-3xl shadow-2xl p-6">
+        <DialogHeader className="pb-3">
+          <DialogTitle className="text-2xl font-bold text-center text-neutral-900">
+            로그인
+          </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {/* 에러 메시지 */}
           {(localError || error) && (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+            <div className="bg-red-50 border border-red-300 text-red-700 px-3 py-2 rounded-lg text-xs font-medium">
               {localError || error}
             </div>
           )}
 
           {/* 이메일 */}
-          <div className="space-y-2">
-            <Label htmlFor="email">이메일</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="email" className="text-xs font-semibold text-neutral-800 uppercase tracking-wide">이메일</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 id="email"
                 type="email"
                 placeholder="example@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
+                className="pl-11 bg-neutral-50 border border-neutral-300 rounded-lg focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 text-sm text-neutral-900 placeholder-neutral-400 transition-all h-9"
                 disabled={isLoading}
               />
             </div>
           </div>
 
           {/* 비밀번호 */}
-          <div className="space-y-2">
-            <Label htmlFor="password">비밀번호</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="password" className="text-xs font-semibold text-neutral-800 uppercase tracking-wide">비밀번호</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 id="password"
                 type="password"
-                placeholder="8자 이상 입력"
+                placeholder="8자 이상"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-10"
+                className="pl-11 bg-neutral-50 border border-neutral-300 rounded-lg focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 text-sm text-neutral-900 placeholder-neutral-400 transition-all h-9"
                 disabled={isLoading}
               />
             </div>
           </div>
 
           {/* 로그인 버튼 */}
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-2 rounded-lg transition-all mt-1 h-9 text-sm"
+            disabled={isLoading}
+          >
             {isLoading ? "로그인 중..." : "로그인"}
           </Button>
 
-          {/* 구분선 */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500">또는</span>
-            </div>
-          </div>
-
-          {/* 소셜 로그인 (추후 구현) */}
-          <div className="space-y-3">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={handleGoogleLogin}
-              disabled
-            >
-              <Chrome className="w-5 h-5 mr-2" />
-              Google 로그인 (준비 중)
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full bg-yellow-300 hover:bg-yellow-400 border-yellow-400"
-              onClick={handleKakaoLogin}
-              disabled
-            >
-              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3C6.477 3 2 6.477 2 10.8c0 2.765 1.828 5.192 4.574 6.597-.188.696-.614 2.434-.701 2.819-.103.453.166.447.35.325.135-.09 2.181-1.476 3.042-2.062C10.089 18.815 11.036 19 12 19c5.523 0 10-3.477 10-7.8S17.523 3 12 3z" />
-              </svg>
-              카카오 로그인 (준비 중)
-            </Button>
-          </div>
-
           {/* 회원가입 링크 */}
-          <div className="text-center text-sm">
-            <span className="text-gray-600">계정이 없으신가요? </span>
+          <div className="text-center text-xs mt-3 pt-3 border-t border-neutral-200">
+            <span className="text-neutral-600">계정이 없으신가요? </span>
             {onSwitchToRegister ? (
               <button
                 type="button"
                 onClick={onSwitchToRegister}
-                className="text-primary-600 hover:text-primary-700 font-semibold"
+                className="text-neutral-900 hover:text-neutral-700 font-bold transition-colors"
               >
                 회원가입
               </button>
@@ -159,7 +128,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToRegister }: LoginModalPr
               <Link
                 href="/register"
                 onClick={onClose}
-                className="text-primary-600 hover:text-primary-700 font-semibold"
+                className="text-neutral-900 hover:text-neutral-700 font-bold transition-colors"
               >
                 회원가입
               </Link>

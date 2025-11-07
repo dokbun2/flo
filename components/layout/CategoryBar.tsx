@@ -18,7 +18,7 @@ const categories = [
 
 export function CategoryBar() {
   return (
-    <div className="bg-transparent sticky top-[73px] z-40">
+    <div className="hidden md:block bg-transparent sticky top-[73px] z-40">
       <div className="container mx-auto px-4">
         <div className="flex gap-8 overflow-x-auto pb-0 scrollbar-hide justify-center">
           {categories.map((category) => (

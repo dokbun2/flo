@@ -13,7 +13,7 @@ export interface Category {
 }
 
 export interface CategoryQuickNavProps {
-  categories: Category[];
+  categories?: Category[];
 }
 
 const defaultCategories: Category[] = [

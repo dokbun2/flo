@@ -84,24 +84,26 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[480px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">회원가입</DialogTitle>
+      <DialogContent className="max-w-[350px] sm:max-w-[420px] max-h-[90vh] overflow-y-auto bg-white border-0 rounded-3xl shadow-2xl p-6">
+        <DialogHeader className="pb-3">
+          <DialogTitle className="text-2xl font-bold text-center text-neutral-900">
+            회원가입
+          </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-5 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {/* 에러 메시지 */}
           {(localError || error) && (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+            <div className="bg-red-50 border border-red-300 text-red-700 px-3 py-2 rounded-lg text-xs font-medium">
               {localError || error}
             </div>
           )}
 
           {/* 이름 */}
-          <div className="space-y-2">
-            <Label htmlFor="name">이름 *</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="name" className="text-xs font-semibold text-neutral-800 uppercase tracking-wide">이름 *</Label>
             <div className="relative">
-              <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 id="name"
                 name="name"
@@ -109,17 +111,17 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                 placeholder="홍길동"
                 value={formData.name}
                 onChange={handleChange}
-                className="pl-10"
+                className="pl-11 bg-neutral-50 border border-neutral-300 rounded-lg focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 text-sm text-neutral-900 placeholder-neutral-400 transition-all h-9"
                 disabled={isLoading}
               />
             </div>
           </div>
 
           {/* 이메일 */}
-          <div className="space-y-2">
-            <Label htmlFor="email">이메일 *</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="email" className="text-xs font-semibold text-neutral-800 uppercase tracking-wide">이메일 *</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 id="email"
                 name="email"
@@ -127,17 +129,17 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                 placeholder="example@email.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="pl-10"
+                className="pl-11 bg-neutral-50 border border-neutral-300 rounded-lg focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 text-sm text-neutral-900 placeholder-neutral-400 transition-all h-9"
                 disabled={isLoading}
               />
             </div>
           </div>
 
           {/* 전화번호 */}
-          <div className="space-y-2">
-            <Label htmlFor="phone">전화번호 (선택)</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="phone" className="text-xs font-semibold text-neutral-800 uppercase tracking-wide">전화번호</Label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 id="phone"
                 name="phone"
@@ -145,98 +147,65 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
                 placeholder="010-1234-5678"
                 value={formData.phone}
                 onChange={handleChange}
-                className="pl-10"
+                className="pl-11 bg-neutral-50 border border-neutral-300 rounded-lg focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 text-sm text-neutral-900 placeholder-neutral-400 transition-all h-9"
                 disabled={isLoading}
               />
             </div>
           </div>
 
           {/* 비밀번호 */}
-          <div className="space-y-2">
-            <Label htmlFor="password">비밀번호 *</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="password" className="text-xs font-semibold text-neutral-800 uppercase tracking-wide">비밀번호 *</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 id="password"
                 name="password"
                 type="password"
-                placeholder="8자 이상 입력"
+                placeholder="8자 이상"
                 value={formData.password}
                 onChange={handleChange}
-                className="pl-10"
+                className="pl-11 bg-neutral-50 border border-neutral-300 rounded-lg focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 text-sm text-neutral-900 placeholder-neutral-400 transition-all h-9"
                 disabled={isLoading}
               />
             </div>
           </div>
 
           {/* 비밀번호 확인 */}
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">비밀번호 확인 *</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="confirmPassword" className="text-xs font-semibold text-neutral-800 uppercase tracking-wide">비밀번호 확인 *</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
-                placeholder="비밀번호 재입력"
+                placeholder="재입력"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="pl-10"
+                className="pl-11 bg-neutral-50 border border-neutral-300 rounded-lg focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 text-sm text-neutral-900 placeholder-neutral-400 transition-all h-9"
                 disabled={isLoading}
               />
             </div>
           </div>
 
           {/* 회원가입 버튼 */}
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-2 rounded-lg transition-all mt-1 h-9 text-sm"
+            disabled={isLoading}
+          >
             {isLoading ? "가입 중..." : "회원가입"}
           </Button>
 
-          {/* 구분선 */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500">또는</span>
-            </div>
-          </div>
-
-          {/* 소셜 회원가입 (추후 구현) */}
-          <div className="space-y-3">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={handleGoogleSignup}
-              disabled
-            >
-              <Chrome className="w-5 h-5 mr-2" />
-              Google 회원가입 (준비 중)
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full bg-yellow-300 hover:bg-yellow-400 border-yellow-400"
-              onClick={handleKakaoSignup}
-              disabled
-            >
-              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3C6.477 3 2 6.477 2 10.8c0 2.765 1.828 5.192 4.574 6.597-.188.696-.614 2.434-.701 2.819-.103.453.166.447.35.325.135-.09 2.181-1.476 3.042-2.062C10.089 18.815 11.036 19 12 19c5.523 0 10-3.477 10-7.8S17.523 3 12 3z" />
-              </svg>
-              카카오 회원가입 (준비 중)
-            </Button>
-          </div>
-
           {/* 로그인 링크 */}
-          <div className="text-center text-sm">
-            <span className="text-gray-600">이미 계정이 있으신가요? </span>
+          <div className="text-center text-xs mt-3 pt-3 border-t border-neutral-200">
+            <span className="text-neutral-600">이미 계정이 있으신가요? </span>
             {onSwitchToLogin ? (
               <button
                 type="button"
                 onClick={onSwitchToLogin}
-                className="text-primary-600 hover:text-primary-700 font-semibold"
+                className="text-neutral-900 hover:text-neutral-700 font-bold transition-colors"
               >
                 로그인
               </button>
@@ -244,7 +213,7 @@ export function RegisterModal({ isOpen, onClose, onSwitchToLogin }: RegisterModa
               <Link
                 href="/login"
                 onClick={onClose}
-                className="text-primary-600 hover:text-primary-700 font-semibold"
+                className="text-neutral-900 hover:text-neutral-700 font-bold transition-colors"
               >
                 로그인
               </Link>

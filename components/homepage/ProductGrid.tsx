@@ -11,7 +11,7 @@ export interface Product {
 }
 
 export interface ProductGridProps {
-  title: string;
+  title?: string;
   products: Product[];
   columns?: number;
 }
@@ -20,7 +20,7 @@ export function ProductGrid({ title, products, columns = 4 }: ProductGridProps) 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <h2 className="text-2xl font-bold text-neutral-900">{title}</h2>
+      {title && <h2 className="text-2xl font-bold text-neutral-900">{title}</h2>}
 
       {/* Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

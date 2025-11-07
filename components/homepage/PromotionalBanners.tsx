@@ -9,7 +9,7 @@ export interface PromoBanner {
 }
 
 export interface PromotionalBannersProps {
-  banners: PromoBanner[];
+  banners?: PromoBanner[];
 }
 
 const defaultBanners: PromoBanner[] = [
