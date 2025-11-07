@@ -11,5 +11,6 @@ export interface User {
   email: string;
   name: string;
   phone?: string;
+  role?: 'user' | 'admin';
   created_at?: string;
 }

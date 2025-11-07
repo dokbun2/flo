@@ -209,29 +209,29 @@ export default function ProductStatusPage() {
           <Table className="text-xs w-full table-fixed border-collapse">
             <TableHeader>
               <TableRow className="h-8">
-                <TableHead className="w-12 text-xs px-2 py-1 text-left">번호</TableHead>
-                <TableHead className="w-20 text-xs px-2 py-1 text-left">등록일</TableHead>
-                <TableHead className="flex-1 text-xs px-2 py-1 text-left">상품명</TableHead>
-                <TableHead className="w-16 text-xs px-2 py-1 text-left">카테고리</TableHead>
-                <TableHead className="w-20 text-xs px-2 py-1 text-right">가격</TableHead>
+                <TableHead className="w-14 text-xs px-2 py-1 text-left">번호</TableHead>
+                <TableHead className="w-24 text-xs px-2 py-1 text-left">등록일</TableHead>
+                <TableHead className="w-32 text-xs px-2 py-1 text-left">상품명</TableHead>
+                <TableHead className="w-20 text-xs px-2 py-1 text-left">카테고리</TableHead>
+                <TableHead className="w-24 text-xs px-2 py-1 text-right">가격</TableHead>
                 <TableHead className="w-12 text-xs px-2 py-1 text-center">재고</TableHead>
                 <TableHead className="w-16 text-xs px-2 py-1 text-center">상태</TableHead>
-                <TableHead className="w-16 text-xs px-2 py-1 text-center">관리</TableHead>
+                <TableHead className="w-14 text-xs px-2 py-1 text-center">관리</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredProducts.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={8} className="text-center py-4 text-gray-500 text-xs">
-                    검색 결과 없음
+                    상품이 없습니다
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredProducts.map((product) => (
                   <TableRow key={product.id} className="h-8 border-t">
-                    <TableCell className="font-medium text-xs px-2 py-1 whitespace-nowrap">{product.id}</TableCell>
-                    <TableCell className="text-xs px-2 py-1 whitespace-nowrap">{product.registeredDate}</TableCell>
-                    <TableCell className="text-xs px-2 py-1 overflow-hidden">
+                    <TableCell className="w-14 font-medium text-xs px-2 py-1 whitespace-nowrap">{product.id}</TableCell>
+                    <TableCell className="w-24 text-xs px-2 py-1 whitespace-nowrap">{product.registeredDate}</TableCell>
+                    <TableCell className="w-32 text-xs px-2 py-1 overflow-hidden">
                       <Link
                         href={`/products/${product.id}`}
                         target="_blank"
@@ -240,9 +240,9 @@ export default function ProductStatusPage() {
                         {product.productName}
                       </Link>
                     </TableCell>
-                    <TableCell className="text-xs px-2 py-1 whitespace-nowrap">{product.category}</TableCell>
-                    <TableCell className="text-right text-xs px-2 py-1 whitespace-nowrap">{formatPrice(product.price)}</TableCell>
-                    <TableCell className="text-center text-xs px-2 py-1 whitespace-nowrap">
+                    <TableCell className="w-20 text-xs px-2 py-1 whitespace-nowrap">{product.category}</TableCell>
+                    <TableCell className="w-24 text-right text-xs px-2 py-1 whitespace-nowrap">{formatPrice(product.price)}</TableCell>
+                    <TableCell className="w-12 text-center text-xs px-2 py-1 whitespace-nowrap">
                       <span
                         className={
                           product.quantity === 0
@@ -255,10 +255,10 @@ export default function ProductStatusPage() {
                         {product.quantity}
                       </span>
                     </TableCell>
-                    <TableCell className="text-center text-xs px-2 py-1 whitespace-nowrap">
+                    <TableCell className="w-16 text-center text-xs px-2 py-1 whitespace-nowrap">
                       {getStatusBadge(product.status)}
                     </TableCell>
-                    <TableCell className="text-center px-2 py-1">
+                    <TableCell className="w-14 text-center px-2 py-1">
                       <div className="flex items-center justify-center gap-0.5">
                         <Button
                           variant="outline"

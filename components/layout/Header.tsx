@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Search, User, ShoppingCart, Flower, Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { RegisterModal } from "@/components/auth/RegisterModal";
 
@@ -27,7 +28,8 @@ export function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const { user, logout } = useAuth();
-  const cartItemCount = 0; // TODO: Connect to cart state
+  const { getCartCount } = useCart();
+  const cartItemCount = getCartCount();
 
   const handleSwitchToRegister = () => {
     setIsLoginModalOpen(false);

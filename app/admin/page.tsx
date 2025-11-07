@@ -82,13 +82,13 @@ export default function OrderManagementPage() {
   });
 
   return (
-    <div className="space-y-3">
-      <div>
-        <h1 className="text-lg md:text-xl font-bold text-gray-900">주문 접수 현황</h1>
+    <div className="space-y-2">
+      <div className="px-1">
+        <h1 className="text-base md:text-lg font-bold text-gray-900">주문 접수 현황</h1>
       </div>
 
       {/* 검색 섹션 */}
-      <div className="bg-white rounded-lg shadow p-3">
+      <div className="bg-white rounded-lg shadow p-2">
         <div className="flex items-center gap-3">
           <Label htmlFor="search" className="text-xs font-semibold whitespace-nowrap">
             주문 검색
@@ -110,55 +110,55 @@ export default function OrderManagementPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow">
+      <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto overflow-y-visible scrollbar-visible">
           <Table className="text-xs w-full table-fixed border-collapse">
             <TableHeader>
-              <TableRow className="h-8">
-                <TableHead className="w-20 text-xs px-2 py-1 text-left">주문번호</TableHead>
-                <TableHead className="w-20 text-xs px-2 py-1 text-left">주문일자</TableHead>
-                <TableHead className="w-16 text-xs px-2 py-1 text-left">고객명</TableHead>
-                <TableHead className="w-24 text-xs px-2 py-1 text-left">전화번호</TableHead>
-                <TableHead className="w-24 text-xs px-2 py-1 text-left">제품명</TableHead>
-                <TableHead className="w-12 text-xs px-2 py-1 text-center">수량</TableHead>
-                <TableHead className="w-20 text-xs px-2 py-1 text-right">총금액</TableHead>
-                <TableHead className="flex-1 text-xs px-2 py-1 text-left">배송주소</TableHead>
-                <TableHead className="w-16 text-xs px-2 py-1 text-center">배송현황</TableHead>
-                <TableHead className="w-20 text-xs px-2 py-1 text-center">배송완료일</TableHead>
-                <TableHead className="w-16 text-xs px-2 py-1 text-center">관리</TableHead>
+              <TableRow className="h-7">
+                <TableHead className="w-20 text-xs px-1.5 py-1 text-left">주문번호</TableHead>
+                <TableHead className="w-20 text-xs px-1.5 py-1 text-left">주문일자</TableHead>
+                <TableHead className="w-16 text-xs px-1.5 py-1 text-left">고객명</TableHead>
+                <TableHead className="w-24 text-xs px-1.5 py-1 text-left">전화번호</TableHead>
+                <TableHead className="w-24 text-xs px-1.5 py-1 text-left">제품명</TableHead>
+                <TableHead className="w-12 text-xs px-1.5 py-1 text-center">수량</TableHead>
+                <TableHead className="w-20 text-xs px-1.5 py-1 text-right">총금액</TableHead>
+                <TableHead className="flex-1 text-xs px-1.5 py-1 text-left">배송주소</TableHead>
+                <TableHead className="w-16 text-xs px-1.5 py-1 text-center">배송현황</TableHead>
+                <TableHead className="w-20 text-xs px-1.5 py-1 text-center">배송완료일</TableHead>
+                <TableHead className="w-16 text-xs px-1.5 py-1 text-center">관리</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredOrders.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={11} className="text-center py-4 text-gray-500 text-xs">
+                  <TableCell colSpan={11} className="text-center py-3 text-gray-500 text-xs">
                     검색 결과 없음
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredOrders.map((order) => (
-                <TableRow key={order.id} className="h-8 border-t">
-                  <TableCell className="font-medium whitespace-nowrap text-xs px-2 py-1">{order.id}</TableCell>
-                  <TableCell className="whitespace-nowrap text-xs px-2 py-1">{order.orderDate}</TableCell>
-                  <TableCell className="whitespace-nowrap text-xs px-2 py-1">{order.customerName}</TableCell>
-                  <TableCell className="whitespace-nowrap text-xs px-2 py-1">{order.phone}</TableCell>
-                  <TableCell className="text-xs px-2 py-1 overflow-hidden">
+                <TableRow key={order.id} className="h-7 border-t">
+                  <TableCell className="font-medium whitespace-nowrap text-xs px-1.5 py-0.5">{order.id}</TableCell>
+                  <TableCell className="whitespace-nowrap text-xs px-1.5 py-0.5">{order.orderDate}</TableCell>
+                  <TableCell className="whitespace-nowrap text-xs px-1.5 py-0.5">{order.customerName}</TableCell>
+                  <TableCell className="whitespace-nowrap text-xs px-1.5 py-0.5">{order.phone}</TableCell>
+                  <TableCell className="text-xs px-1.5 py-0.5 overflow-hidden">
                     <p className="truncate font-medium">{order.productName}</p>
                   </TableCell>
-                  <TableCell className="text-center whitespace-nowrap text-xs px-2 py-1">{order.quantity}개</TableCell>
-                  <TableCell className="text-right font-semibold whitespace-nowrap text-xs px-2 py-1">
+                  <TableCell className="text-center whitespace-nowrap text-xs px-1.5 py-0.5">{order.quantity}개</TableCell>
+                  <TableCell className="text-right font-semibold whitespace-nowrap text-xs px-1.5 py-0.5">
                     {formatPrice(order.totalPrice)}
                   </TableCell>
-                  <TableCell className="text-xs px-2 py-1 overflow-hidden">
+                  <TableCell className="text-xs px-1.5 py-0.5 overflow-hidden">
                     <p className="truncate" title={order.address}>{order.address}</p>
                   </TableCell>
-                  <TableCell className="text-center whitespace-nowrap text-xs px-2 py-1">
+                  <TableCell className="text-center whitespace-nowrap text-xs px-1.5 py-0.5">
                     {order.status}
                   </TableCell>
-                  <TableCell className="text-center whitespace-nowrap text-xs px-2 py-1">
+                  <TableCell className="text-center whitespace-nowrap text-xs px-1.5 py-0.5">
                     {order.deliveryDate ? format(new Date(order.deliveryDate), "yy-MM-dd") : "-"}
                   </TableCell>
-                  <TableCell className="text-center px-2 py-1">
+                  <TableCell className="text-center px-1.5 py-0.5">
                     <Dialog
                       open={openDialog && selectedOrder?.id === order.id}
                       onOpenChange={(open) => {
@@ -173,7 +173,7 @@ export default function OrderManagementPage() {
                         <Button variant="outline" size="sm" onClick={() => {
                           handleOpenDialog(order);
                           setDeliveryDate(order.deliveryDate ? new Date(order.deliveryDate) : undefined);
-                        }} className="whitespace-nowrap text-xs h-7">
+                        }} className="whitespace-nowrap text-xs h-6 px-2">
                           관리
                         </Button>
                       </DialogTrigger>

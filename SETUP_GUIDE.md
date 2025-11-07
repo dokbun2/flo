@@ -31,6 +31,7 @@ CREATE TABLE users (
   name TEXT NOT NULL,
   phone TEXT,
   hashed_password TEXT NOT NULL,
+  role TEXT DEFAULT 'user' CHECK (role IN ('user', 'admin')),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -138,21 +139,60 @@ npm run dev
 
 ---
 
-## 📱 6. 다음 단계 (선택사항)
+## 🔐 6. 관리자 권한 설정
 
-### 6.1 Google 로그인 추가
+### 6.1 관리자 계정 만들기
+기본적으로 회원가입한 모든 사용자는 `user` 역할을 가집니다. 관리자 페이지에 접근하려면 `admin` 역할이 필요합니다.
+
+**방법 1: Supabase 대시보드에서 직접 수정**
+1. Supabase 대시보드 > **Table Editor** > `users` 테이블
+2. 관리자로 지정할 사용자 찾기
+3. `role` 컬럼을 `user`에서 `admin`으로 변경
+4. 저장
+
+**방법 2: SQL로 업데이트**
+Supabase **SQL Editor**에서 실행:
+
+```sql
+-- 이메일로 관리자 지정
+UPDATE users
+SET role = 'admin'
+WHERE email = '관리자이메일@example.com';
+
+-- 또는 여러 명을 한번에 지정
+UPDATE users
+SET role = 'admin'
+WHERE email IN ('admin1@example.com', 'admin2@example.com');
+```
+
+### 6.2 관리자 페이지 접근
+- **URL**: `http://localhost:3000/admin`
+- **권한**: `admin` 역할을 가진 사용자만 접근 가능
+- **접근 거부 시**: 자동으로 홈페이지로 리다이렉트
+
+### 6.3 보안 기능
+- ✅ 로그인하지 않은 사용자는 접근 불가
+- ✅ `user` 역할을 가진 일반 사용자는 접근 불가
+- ✅ `admin` 역할을 가진 사용자만 접근 가능
+- ✅ 권한 확인 후 자동 리다이렉트
+
+---
+
+## 📱 7. 다음 단계 (선택사항)
+
+### 7.1 Google 로그인 추가
 1. [Google Cloud Console](https://console.cloud.google.com/) 접속
 2. OAuth 2.0 클라이언트 ID 생성
 3. `.env.local`에 키 추가
 4. `LoginModal.tsx`, `RegisterModal.tsx`에서 `disabled` 제거
 
-### 6.2 카카오 로그인 추가
+### 7.2 카카오 로그인 추가
 1. [Kakao Developers](https://developers.kakao.com/) 접속
 2. 애플리케이션 생성 및 REST API 키 발급
 3. `.env.local`에 키 추가
 4. 카카오 OAuth 구현 코드 추가
 
-### 6.3 이메일 인증 추가
+### 7.3 이메일 인증 추가
 1. Supabase에서 이메일 인증 활성화
 2. 회원가입 시 인증 이메일 발송
 3. 인증 완료 후 로그인 가능하도록 변경

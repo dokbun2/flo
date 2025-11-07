@@ -4,6 +4,7 @@ import "./globals.css";
 import { ProductProvider } from "@/contexts/ProductContext";
 import { OrderProvider } from "@/contexts/OrderContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { CartProvider } from "@/contexts/CartContext";
 
 const notoSerifKR = Noto_Serif_KR({
   subsets: ["latin"],
@@ -25,9 +26,11 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning className={notoSerifKR.variable}>
       <body suppressHydrationWarning className="font-serif">
         <AuthProvider>
-          <ProductProvider>
-            <OrderProvider>{children}</OrderProvider>
-          </ProductProvider>
+          <CartProvider>
+            <ProductProvider>
+              <OrderProvider>{children}</OrderProvider>
+            </ProductProvider>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>
