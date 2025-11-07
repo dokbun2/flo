@@ -1,0 +1,226 @@
+# Implementation Plan
+
+- [x] 1. Set up project structure and utilities
+  - Create directory structure for components (domain/product, homepage, ui)
+  - Implement formatPrice utility function in lib/utils.ts for price formatting with thousand separators
+  - Configure Tailwind CSS with custom color palette (primary green colors, neutral grays)
+  - Install and configure shadcn/ui components (Carousel, Card, Button)
+  - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5_
+
+- [x] 2. Implement ProductCard component
+  - [x] 2.1 Create ProductCard component with TypeScript interface
+    - Define ProductCardProps interface with all required and optional fields
+    - Create component file at src/components/domain/product/ProductCard.tsx
+    - Implement basic card structure with Next.js Image component
+    - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
+  - [x] 2.2 Add product image with aspect ratio and optimization
+    - Use Next.js Image with aspect-square class for 1:1 ratio
+    - Configure image sizes prop for responsive loading
+    - Implement error handling with fallback placeholder image
+    - _Requirements: 7.1, 10.1, 10.2_
+  - [x] 2.3 Implement price display with formatting
+    - Display sale price using formatPrice utility
+    - Show original price with strikethrough when discount exists
+    - Calculate and display discount percentage badge
+    - _Requirements: 7.3, 7.4, 8.1, 8.2, 8.3_
+  - [x] 2.4 Add rating and review display
+    - Implement star rating icons using lucide-react
+    - Display review count when available
+    - Style rating section with proper sizing and colors
+    - _Requirements: 7.5_
+  - [x] 2.5 Add hover effects and interactivity
+    - Implement scale transform on hover
+    - Add shadow increase on hover
+    - Make entire card clickable with Link component
+    - _Requirements: 3.5, 5.3_
+
+- [x] 3. Implement HeroCarousel component
+  - [x] 3.1 Set up carousel structure with shadcn/ui
+    - Create HeroCarousel component as client component
+    - Define HeroSlide and HeroCarouselProps interfaces
+    - Install and configure Embla Carousel dependencies
+    - _Requirements: 1.1_
+  - [x] 3.2 Implement auto-play functionality
+    - Add useEffect hook for 5-second auto-play interval
+    - Implement pause on hover behavior
+    - Handle cleanup on component unmount
+    - _Requirements: 1.2_
+  - [x] 3.3 Add navigation controls
+    - Implement previous/next arrow buttons with hover states
+    - Add dot indicators showing current slide position
+    - Enable keyboard navigation (arrow keys)
+    - _Requirements: 1.3, 1.4_
+  - [x] 3.4 Style carousel with responsive heights
+    - Set height to 400px on desktop viewports
+    - Set height to 300px on mobile viewports
+    - Ensure full-width display with max-width constraint
+    - Add smooth transitions (300ms ease-in-out)
+    - _Requirements: 1.5_
+
+- [x] 4. Implement CategoryQuickNav component
+  - [x] 4.1 Create category grid structure
+    - Create CategoryQuickNav component as server component
+    - Define Category and CategoryQuickNavProps interfaces
+    - Implement responsive grid (4 columns desktop, 2 columns mobile)
+    - _Requirements: 2.1, 2.3, 2.4_
+  - [x] 4.2 Add category items with icons
+    - Create 8 category items: 꽃다발, 꽃바구니, 꽃집자, 관엽식물, 동양란, 서양란, 축하화환, 근조화환
+    - Add icons for each category using lucide-react or custom SVGs
+    - Style each item with icon (48px × 48px) and label (14px)
+    - _Requirements: 2.2_
+  - [x] 4.3 Implement hover effects and navigation
+    - Add background color change on hover
+    - Implement scale transform on hover
+    - Link each category to corresponding category page
+    - _Requirements: 2.5_
+
+- [x] 5. Implement PromotionalBanners component
+  - [x] 5.1 Create promotional banner grid
+    - Create PromotionalBanners component as server component
+    - Define PromoBanner and PromotionalBannersProps interfaces
+    - Implement responsive grid (4 columns desktop, 2×2 mobile)
+    - _Requirements: 9.1, 9.3, 9.4_
+  - [x] 5.2 Add banner cards with images and overlays
+    - Create 4 banner items: 트렌드픽, 정기구독, 매거진, 이벤트
+    - Add images with overlay gradient
+    - Display title text overlaid on image (white, bold, 18px)
+    - _Requirements: 9.2_
+  - [x] 5.3 Implement hover effects and navigation
+    - Add scale and brightness increase on hover
+    - Link each banner to corresponding section page
+    - Apply rounded corners (border-radius: 12px)
+    - _Requirements: 9.5_
+
+- [x] 6. Implement ProductSlider component
+  - [x] 6.1 Create slider structure with carousel
+    - Create ProductSlider component as client component
+    - Define Product and ProductSliderProps interfaces
+    - Set up Embla Carousel for horizontal scrolling
+    - _Requirements: 3.1, 4.1_
+  - [x] 6.2 Implement responsive product display
+    - Show 4 products on desktop, 2 on tablet, 1.5 on mobile
+    - Add horizontal scroll with arrow navigation
+    - Implement scroll snap behavior for smooth alignment
+    - _Requirements: 3.2, 3.3, 4.2_
+  - [x] 6.3 Add section title and view all link
+    - Display section title as H2 (24px, bold)
+    - Add optional "View All" link aligned to the right
+    - Use ProductCard component for each product item
+    - _Requirements: 3.1, 4.1_
+  - [ ]* 6.4 Implement loading state with skeletons
+    - Create skeleton loader components for ProductCard
+    - Display skeletons while products are loading
+    - _Requirements: 10.3_
+
+- [x] 7. Implement ProductGrid component
+  - [x] 7.1 Create grid structure
+    - Create ProductGrid component as server component
+    - Define ProductGridProps interface
+    - Implement responsive grid (4 columns desktop, 2 columns mobile)
+    - _Requirements: 6.1, 6.2, 6.3_
+  - [x] 7.2 Display products with section title
+    - Add section title as H2 (24px, bold)
+    - Display exactly 8 ProductCard components
+    - Use ProductCard component for each product item
+    - Set gap between cards to 16px
+    - _Requirements: 6.4_
+
+- [x] 8. Implement WideBanner component
+  - [x] 8.1 Create banner structure
+    - Create WideBanner component as server component
+    - Define WideBannerProps interface
+    - Use Next.js Image with fill layout
+    - _Requirements: 5.1, 5.2_
+  - [x] 8.2 Style banner with responsive behavior
+    - Set full-width container with max-width constraint
+    - Maintain aspect ratio via container height (default 200px)
+    - Add rounded corners (border-radius: 8px)
+    - _Requirements: 5.4_
+  - [x] 8.3 Add interactivity and spacing
+    - Wrap banner in Link component for click-through
+    - Add hover effect (slight opacity change)
+    - Apply 40px margin top and bottom
+    - _Requirements: 5.3, 5.5_
+
+- [x] 9. Assemble homepage with all components
+  - [x] 9.1 Create main page structure
+    - Create or update src/app/(main)/page.tsx
+    - Import all homepage components
+    - Set up vertical stack layout with proper spacing
+    - _Requirements: 1.1, 2.1, 3.1, 4.1, 5.1, 6.1_
+  - [x] 9.2 Add HeroCarousel section
+    - Place HeroCarousel at the top of the page
+    - Provide mock slide data for development
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
+  - [x] 9.3 Add CategoryQuickNav section
+    - Place CategoryQuickNav below HeroCarousel
+    - Provide category data with names and hrefs
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
+  - [x] 9.4 Add PromotionalBanners section
+    - Place PromotionalBanners below CategoryQuickNav
+    - Provide promotional banner data
+    - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
+  - [x] 9.5 Add ProductSlider sections
+    - Add "MD의 추천" ProductSlider with 40px top spacing
+    - Add "신상품" ProductSlider with 40px top spacing
+    - Provide mock product data for both sections
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 4.1, 4.2, 4.3, 4.4, 4.5_
+  - [x] 9.6 Add WideBanner section
+    - Place WideBanner between product sections
+    - Provide subscription promotion banner data
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
+  - [x] 9.7 Add ProductGrid section
+    - Add "베스트셀러" ProductGrid with 40px top spacing
+    - Provide mock bestseller product data (8 products)
+    - Add 60px bottom spacing before footer
+    - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
+
+- [x] 10. Implement responsive behavior and performance optimization
+  - [x] 10.1 Configure Next.js Image optimization
+    - Set up next.config.js with image domains
+    - Define responsive image sizes for different breakpoints
+    - Implement priority loading for hero carousel images
+    - _Requirements: 10.1, 10.2_
+  - [x] 10.2 Add lazy loading for below-the-fold content
+    - Ensure images below fold use lazy loading
+    - Verify Next.js automatic lazy loading is working
+    - _Requirements: 10.2_
+  - [x] 10.3 Test responsive layouts across breakpoints
+    - Verify 4-column to 2-column grid transitions
+    - Test carousel behavior on mobile devices
+    - Check spacing and padding at all viewport sizes
+    - _Requirements: 10.5_
+  - [ ]* 10.4 Measure and optimize performance metrics
+    - Run Lighthouse audit to check LCP, FID, CLS scores
+    - Verify initial render completes within 2 seconds
+    - Optimize any performance bottlenecks identified
+    - _Requirements: 10.4_
+
+- [ ]* 11. Add error handling and empty states
+  - [ ]* 11.1 Implement image error handling
+    - Add fallback placeholder for failed product images
+    - Use onError handler in Next.js Image components
+    - Display gray placeholder with icon on error
+    - _Requirements: 7.1, 10.1_
+  - [ ]* 11.2 Add empty state displays
+    - Show "상품이 없습니다" message when no products available
+    - Hide banner sections when no banners are provided
+    - Implement user-friendly error messages for network failures
+    - _Requirements: 3.1, 4.1, 6.1_
+
+- [ ]* 12. Implement accessibility features
+  - [ ]* 12.1 Add ARIA labels and semantic HTML
+    - Add aria-labels to carousel navigation controls
+    - Use semantic HTML structure (nav, section, article)
+    - Ensure proper heading hierarchy (H1 in header, H2 for sections)
+    - _Requirements: 1.3, 1.4_
+  - [ ]* 12.2 Implement keyboard navigation
+    - Test and verify keyboard navigation for carousel
+    - Ensure all interactive elements are keyboard accessible
+    - Add visible focus states to all focusable elements
+    - _Requirements: 1.3_
+  - [ ]* 12.3 Add descriptive alt text
+    - Write descriptive alt text for all product images
+    - Add alt text for banner and promotional images
+    - Ensure decorative images have empty alt attributes
+    - _Requirements: 7.1, 10.1_
