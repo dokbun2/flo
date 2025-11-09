@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Search, User, ShoppingCart, Flower, Menu, X, LogOut } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Search, User, Flower, Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useCart } from "@/contexts/CartContext";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { RegisterModal } from "@/components/auth/RegisterModal";
 
@@ -23,13 +23,16 @@ const categories = [
 ];
 
 export function Header() {
+  const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const { user, logout } = useAuth();
-  const { getCartCount } = useCart();
-  const cartItemCount = getCartCount();
+
+  // 흰색 배경 페이지 체크 (마이페이지, 카테고리 등)
+  const isLightPage = pathname?.startsWith('/mypage') || pathname?.startsWith('/category') || pathname?.startsWith('/cart');
+  const shouldShowDarkHeader = isMenuOpen || isLightPage;
 
   const handleSwitchToRegister = () => {
     setIsLoginModalOpen(false);
@@ -42,13 +45,13 @@ export function Header() {
   };
 
   return (
-    <header className={`sticky top-0 z-50 transition-colors duration-200 ${isMenuOpen ? 'bg-white' : 'bg-transparent'}`}>
+    <header className={`sticky top-0 z-50 transition-colors duration-200 ${shouldShowDarkHeader ? 'bg-white shadow-sm' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           {/* Left: Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <Flower className={`w-7 h-7 transition-colors ${isMenuOpen ? 'text-neutral-900' : 'text-white'}`} />
-            <h1 className={`text-2xl font-bold whitespace-nowrap transition-colors ${isMenuOpen ? 'text-neutral-900' : 'text-white'}`}>
+            <Flower className={`w-7 h-7 transition-colors ${shouldShowDarkHeader ? 'text-neutral-900' : 'text-white'}`} />
+            <h1 className={`text-2xl font-bold whitespace-nowrap transition-colors ${shouldShowDarkHeader ? 'text-neutral-900' : 'text-white'}`}>
               꽃집처녀
             </h1>
           </Link>
@@ -79,14 +82,14 @@ export function Header() {
               // 로그인 상태
               <div className="hidden sm:flex items-center gap-2">
                 <div className="relative group">
-                  <button className={`p-2 rounded-lg transition-colors ${isMenuOpen ? 'hover:bg-neutral-100' : 'hover:bg-white/20'}`}>
-                    <User className={`w-5 h-5 transition-colors ${isMenuOpen ? 'text-neutral-900' : 'text-white'}`} />
+                  <button className={`p-2 rounded-lg transition-colors ${shouldShowDarkHeader ? 'hover:bg-neutral-100' : 'hover:bg-white/20'}`}>
+                    <User className={`w-5 h-5 transition-colors ${shouldShowDarkHeader ? 'text-neutral-900' : 'text-white'}`} />
                   </button>
 
                   {/* 드롭다운 메뉴 */}
                   <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all border border-gray-200">
                     <Link
-                      href="/account"
+                      href="/mypage"
                       className="block px-4 py-2 hover:bg-gray-100 text-sm"
                     >
                       마이페이지
@@ -105,36 +108,23 @@ export function Header() {
               // 로그아웃 상태
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className={`hidden sm:flex p-2 rounded-lg transition-colors ${isMenuOpen ? 'hover:bg-neutral-100' : 'hover:bg-white/20'}`}
+                className={`hidden sm:flex p-2 rounded-lg transition-colors ${shouldShowDarkHeader ? 'hover:bg-neutral-100' : 'hover:bg-white/20'}`}
                 aria-label="Login"
               >
-                <User className={`w-5 h-5 transition-colors ${isMenuOpen ? 'text-neutral-900' : 'text-white'}`} />
+                <User className={`w-5 h-5 transition-colors ${shouldShowDarkHeader ? 'text-neutral-900' : 'text-white'}`} />
               </button>
             )}
-
-            <Link
-              href="/cart"
-              className={`hidden sm:flex relative p-2 rounded-lg transition-colors ${isMenuOpen ? 'hover:bg-neutral-100' : 'hover:bg-white/20'}`}
-              aria-label="Shopping cart"
-            >
-              <ShoppingCart className={`w-5 h-5 transition-colors ${isMenuOpen ? 'text-neutral-900' : 'text-white'}`} />
-              {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartItemCount}
-                </span>
-              )}
-            </Link>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`md:hidden p-2 rounded-lg transition-colors ${isMenuOpen ? 'hover:bg-neutral-100' : 'hover:bg-white/20'}`}
+              className={`md:hidden p-2 rounded-lg transition-colors ${shouldShowDarkHeader ? 'hover:bg-neutral-100' : 'hover:bg-white/20'}`}
               aria-label="Toggle menu"
             >
               {isMenuOpen ? (
-                <X className={`w-6 h-6 transition-colors ${isMenuOpen ? 'text-neutral-900' : 'text-white'}`} />
+                <X className={`w-6 h-6 transition-colors ${shouldShowDarkHeader ? 'text-neutral-900' : 'text-white'}`} />
               ) : (
-                <Menu className="w-6 h-6 text-white" />
+                <Menu className={`w-6 h-6 transition-colors ${shouldShowDarkHeader ? 'text-neutral-900' : 'text-white'}`} />
               )}
             </button>
           </div>
@@ -151,7 +141,7 @@ export function Header() {
                     {user.name}님
                   </div>
                   <Link
-                    href="/account"
+                    href="/mypage"
                     className="block px-3 py-2 text-xs text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -181,16 +171,6 @@ export function Header() {
                   </button>
                 </div>
               )}
-
-              {/* Cart Section */}
-              <Link
-                href="/cart"
-                className="block px-3 py-2 text-xs text-neutral-700 hover:bg-neutral-100 rounded-lg transition-colors flex items-center gap-2 pb-3 border-b border-neutral-200 font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <ShoppingCart className="w-4 h-4" />
-                장바구니
-              </Link>
 
               {/* Category Section */}
               <div className="space-y-2 pb-3">

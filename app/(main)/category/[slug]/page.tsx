@@ -9,6 +9,7 @@ import { ChevronRight } from "lucide-react";
 // 카테고리 매핑 (영문 slug -> 한글 카테고리명)
 const categoryMap: Record<string, string> = {
   "bouquet": "꽃다발",
+  "basket": "꽃바구니",
   "opening": "개업축하",
   "promotion": "승진/취임",
   "wedding": "결혼/장례",
@@ -19,6 +20,7 @@ const categoryMap: Record<string, string> = {
   "celebration": "축하화환",
   "condolence": "근조화환",
   "plant": "관엽식물",
+  "all": "전체 상품",
 };
 
 export default function CategoryPage({
@@ -36,11 +38,10 @@ export default function CategoryPage({
   const categoryName = categoryMap[decodedSlug] || decodedSlug;
 
   // 카테고리에 해당하는 상품 필터링
-  const categoryProducts = products.filter(
-    (product) =>
-      product.status === "판매중" &&
-      product.category === categoryName
-  );
+  const categoryProducts = products.filter((product) => {
+    if (slug === "all") return product.status === "판매중";
+    return product.status === "판매중" && product.category === categoryName;
+  });
 
   // ProductGrid 형식으로 변환
   const displayProducts = categoryProducts.map((product) => ({

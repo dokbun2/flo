@@ -149,10 +149,10 @@ export default function SalesDashboardPage() {
                           : "hover:bg-gray-100 border-gray-200"
                       )}
                     >
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center gap-2">
                         <span className="font-medium">{format(day, "dd")}</span>
-                        <span className={cn("text-xs", isSelected ? "text-white" : "text-primary-600 font-semibold")}>
-                          {(dailyTotal / 1000000).toFixed(1)}M
+                        <span className={cn("text-[10px] leading-tight", isSelected ? "text-white" : "text-primary-600 font-semibold")}>
+                          {formatPrice(dailyTotal)}
                         </span>
                       </div>
                     </button>

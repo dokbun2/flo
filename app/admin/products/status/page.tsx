@@ -124,6 +124,11 @@ export default function ProductStatusPage() {
     return `${price.toLocaleString("ko-KR")}원`;
   };
 
+  const formatProductId = (id: string) => {
+    // UUID의 처음 8자만 표시
+    return id.substring(0, 8).toUpperCase();
+  };
+
   const getStatusBadge = (status: Product["status"]) => {
     const colors = {
       판매중: "bg-green-100 text-green-800",
@@ -206,17 +211,17 @@ export default function ProductStatusPage() {
       {/* 상품 목록 테이블 */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto scrollbar-visible">
-          <Table className="text-xs w-full table-fixed border-collapse">
+          <Table className="text-xs w-full border-collapse min-w-[900px]">
             <TableHeader>
-              <TableRow className="h-8">
-                <TableHead className="w-14 text-xs px-2 py-1 text-left">번호</TableHead>
-                <TableHead className="w-24 text-xs px-2 py-1 text-left">등록일</TableHead>
-                <TableHead className="w-32 text-xs px-2 py-1 text-left">상품명</TableHead>
-                <TableHead className="w-20 text-xs px-2 py-1 text-left">카테고리</TableHead>
-                <TableHead className="w-24 text-xs px-2 py-1 text-right">가격</TableHead>
-                <TableHead className="w-12 text-xs px-2 py-1 text-center">재고</TableHead>
-                <TableHead className="w-16 text-xs px-2 py-1 text-center">상태</TableHead>
-                <TableHead className="w-14 text-xs px-2 py-1 text-center">관리</TableHead>
+              <TableRow className="bg-gray-50">
+                <TableHead className="text-xs px-3 py-3 text-left w-[90px] font-semibold">번호</TableHead>
+                <TableHead className="text-xs px-3 py-3 text-left w-[100px] font-semibold">등록일</TableHead>
+                <TableHead className="text-xs px-3 py-3 text-left font-semibold">상품명</TableHead>
+                <TableHead className="text-xs px-3 py-3 text-left w-[100px] font-semibold">카테고리</TableHead>
+                <TableHead className="text-xs px-3 py-3 text-right w-[100px] font-semibold">가격</TableHead>
+                <TableHead className="text-xs px-3 py-3 text-center w-[60px] font-semibold">재고</TableHead>
+                <TableHead className="text-xs px-3 py-3 text-center w-[80px] font-semibold">상태</TableHead>
+                <TableHead className="text-xs px-3 py-3 text-center w-[90px] font-semibold">관리</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -228,53 +233,64 @@ export default function ProductStatusPage() {
                 </TableRow>
               ) : (
                 filteredProducts.map((product) => (
-                  <TableRow key={product.id} className="h-8 border-t">
-                    <TableCell className="w-14 font-medium text-xs px-2 py-1 whitespace-nowrap">{product.id}</TableCell>
-                    <TableCell className="w-24 text-xs px-2 py-1 whitespace-nowrap">{product.registeredDate}</TableCell>
-                    <TableCell className="w-32 text-xs px-2 py-1 overflow-hidden">
+                  <TableRow key={product.id} className="border-t hover:bg-gray-50 transition-colors">
+                    <TableCell className="font-medium text-xs px-3 py-3" title={product.id}>
+                      <span className="text-gray-700">{formatProductId(product.id)}</span>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap text-xs px-3 py-3 text-gray-600">
+                      {product.registeredDate}
+                    </TableCell>
+                    <TableCell className="text-xs px-3 py-3">
                       <Link
                         href={`/products/${product.id}`}
                         target="_blank"
-                        className="text-primary-600 hover:underline block truncate"
+                        className="text-primary-600 hover:underline font-medium block truncate"
+                        title={product.productName}
                       >
                         {product.productName}
                       </Link>
                     </TableCell>
-                    <TableCell className="w-20 text-xs px-2 py-1 whitespace-nowrap">{product.category}</TableCell>
-                    <TableCell className="w-24 text-right text-xs px-2 py-1 whitespace-nowrap">{formatPrice(product.price)}</TableCell>
-                    <TableCell className="w-12 text-center text-xs px-2 py-1 whitespace-nowrap">
+                    <TableCell className="whitespace-nowrap text-xs px-3 py-3 text-gray-700">
+                      {product.category}
+                    </TableCell>
+                    <TableCell className="text-right text-xs px-3 py-3 whitespace-nowrap font-medium text-gray-900">
+                      {formatPrice(product.price)}
+                    </TableCell>
+                    <TableCell className="text-center text-xs px-3 py-3 whitespace-nowrap">
                       <span
                         className={
                           product.quantity === 0
-                            ? "text-red-600 font-semibold"
+                            ? "text-red-600 font-bold"
                             : product.quantity < 5
-                            ? "text-orange-600 font-semibold"
-                            : ""
+                            ? "text-orange-600 font-bold"
+                            : "text-gray-700 font-medium"
                         }
                       >
                         {product.quantity}
                       </span>
                     </TableCell>
-                    <TableCell className="w-16 text-center text-xs px-2 py-1 whitespace-nowrap">
+                    <TableCell className="text-center text-xs px-3 py-3">
                       {getStatusBadge(product.status)}
                     </TableCell>
-                    <TableCell className="w-14 text-center px-2 py-1">
-                      <div className="flex items-center justify-center gap-0.5">
+                    <TableCell className="text-center px-3 py-3">
+                      <div className="flex items-center justify-center gap-1.5">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-6 w-6 p-0 flex-shrink-0"
+                          className="h-7 w-7 p-0 flex-shrink-0 hover:bg-primary-50 hover:border-primary-300"
                           onClick={() => handleEditProduct(product)}
+                          title="수정"
                         >
-                          <Pencil className="w-3 h-3" />
+                          <Pencil className="w-3.5 h-3.5" />
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-6 w-6 p-0 text-red-600 hover:text-red-700 flex-shrink-0"
+                          className="h-7 w-7 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 hover:border-red-300 flex-shrink-0"
                           onClick={() => handleDeleteProduct(product.id)}
+                          title="삭제"
                         >
-                          <Trash2 className="w-3 h-3" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </Button>
                       </div>
                     </TableCell>
@@ -290,7 +306,9 @@ export default function ProductStatusPage() {
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto p-3">
           <DialogHeader className="mb-2">
-            <DialogTitle className="text-sm">상품 정보 수정</DialogTitle>
+            <DialogTitle className="text-sm">
+              상품 정보 수정 {editingProduct && `(${formatProductId(editingProduct.id)})`}
+            </DialogTitle>
           </DialogHeader>
 
           {editingProduct && (

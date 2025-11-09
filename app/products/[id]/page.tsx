@@ -3,6 +3,8 @@
 import { use } from "react";
 import { useProducts } from "@/contexts/ProductContext";
 import { useOrders } from "@/contexts/OrderContext";
+import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +30,8 @@ export default function ProductDetailPage({
   const { id } = use(params);
   const { products } = useProducts();
   const { addOrder } = useOrders();
+  const { addToCart } = useCart();
+  const { user } = useAuth();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
@@ -86,6 +90,33 @@ export default function ProductDetailPage({
     setZonecode(addressData.zonecode);
     setAddress(addressData.address);
     setDetailAddress(addressData.detailAddress);
+  };
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    if (product.quantity === 0) {
+      alert("품절된 상품입니다.");
+      return;
+    }
+
+    try {
+      await addToCart(
+        {
+          id: product.id,
+          title: product.productName,
+          price: product.price,
+          imageUrl: product.thumbnails?.thumbnail1 || "/placeholder-product.svg",
+        },
+        quantity
+      );
+      alert("장바구니에 추가되었습니다!");
+    } catch (error) {
+      alert("장바구니 추가에 실패했습니다.");
+    }
   };
 
   const handleOrderSubmit = (e: React.FormEvent) => {
@@ -260,6 +291,7 @@ export default function ProductDetailPage({
                   variant="outline"
                   className="text-lg"
                   disabled={product.quantity === 0}
+                  onClick={handleAddToCart}
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   장바구니

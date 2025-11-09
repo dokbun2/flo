@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 export interface Product {
   id: string;
@@ -23,9 +24,11 @@ export interface Product {
 
 interface ProductContextType {
   products: Product[];
+  loading: boolean;
   addProduct: (product: Omit<Product, "id" | "registeredDate">) => void;
   updateProduct: (id: string, product: Partial<Product>) => void;
   deleteProduct: (id: string) => void;
+  refreshProducts: () => Promise<void>;
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -140,46 +143,112 @@ const INITIAL_PRODUCTS: Product[] = [
 
 export function ProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // 클라이언트에서만 localStorage 로드
-  useEffect(() => {
-    const savedProducts = localStorage.getItem("products");
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts));
-    } else {
+  // Supabase에서 제품 데이터 가져오기
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      // Supabase 데이터를 Product 타입으로 변환
+      const formattedProducts: Product[] = (data || []).map((item: any) => ({
+        id: item.id,
+        productName: item.title,
+        category: item.category || "기타",
+        price: Number(item.price),
+        quantity: item.stock || 0,
+        description: item.description || "",
+        status: item.stock > 0 ? "판매중" : "품절",
+        registeredDate: item.created_at ? new Date(item.created_at).toISOString().split("T")[0] : "",
+        thumbnails: {
+          thumbnail1: item.image_url || "/placeholder-product.svg",
+        },
+      }));
+
+      setProducts(formattedProducts);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      // 에러 발생 시 초기 데이터 사용
       setProducts(INITIAL_PRODUCTS);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchProducts();
   }, []);
 
-  // products 변경 시 localStorage 저장
-  useEffect(() => {
-    if (products.length > 0) {
-      localStorage.setItem("products", JSON.stringify(products));
+  const refreshProducts = async () => {
+    await fetchProducts();
+  };
+
+  const addProduct = async (product: Omit<Product, "id" | "registeredDate">) => {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .insert([
+          {
+            title: product.productName,
+            description: product.description,
+            price: product.price,
+            category: product.category,
+            stock: product.quantity,
+            image_url: product.thumbnails?.thumbnail1 || "/placeholder-product.svg",
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+      await fetchProducts();
+    } catch (error) {
+      console.error("Error adding product:", error);
     }
-  }, [products]);
-
-  const addProduct = (product: Omit<Product, "id" | "registeredDate">) => {
-    const newProduct: Product = {
-      ...product,
-      id: `P${String(products.length + 1).padStart(3, "0")}`,
-      registeredDate: new Date().toISOString().split("T")[0],
-    };
-    setProducts((prev) => [newProduct, ...prev]);
   };
 
-  const updateProduct = (id: string, updatedProduct: Partial<Product>) => {
-    setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, ...updatedProduct } : p))
-    );
+  const updateProduct = async (id: string, updatedProduct: Partial<Product>) => {
+    try {
+      const updateData: any = {};
+      if (updatedProduct.productName) updateData.title = updatedProduct.productName;
+      if (updatedProduct.description) updateData.description = updatedProduct.description;
+      if (updatedProduct.price) updateData.price = updatedProduct.price;
+      if (updatedProduct.category) updateData.category = updatedProduct.category;
+      if (updatedProduct.quantity !== undefined) updateData.stock = updatedProduct.quantity;
+      if (updatedProduct.thumbnails?.thumbnail1) updateData.image_url = updatedProduct.thumbnails.thumbnail1;
+
+      const { error } = await supabase
+        .from("products")
+        .update(updateData)
+        .eq("id", id);
+
+      if (error) throw error;
+      await fetchProducts();
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
   };
 
-  const deleteProduct = (id: string) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+  const deleteProduct = async (id: string) => {
+    try {
+      const { error } = await supabase.from("products").delete().eq("id", id);
+
+      if (error) throw error;
+      await fetchProducts();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
   };
 
   return (
     <ProductContext.Provider
-      value={{ products, addProduct, updateProduct, deleteProduct }}
+      value={{ products, loading, addProduct, updateProduct, deleteProduct, refreshProducts }}
     >
       {children}
     </ProductContext.Provider>
