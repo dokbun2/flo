@@ -232,7 +232,7 @@ export default function AdminLayout({
             className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 lg:px-4 py-1.5 sm:py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium text-xs sm:text-sm touch-manipulation"
           >
             <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">쇼핑몰 홈</span>
+            <span className="hidden sm:inline">홈</span>
             <span className="sm:hidden">홈</span>
           </Link>
         </header>
